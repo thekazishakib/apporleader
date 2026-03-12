@@ -77,7 +77,10 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} ApporLeader. All rights reserved.
+            &copy; {new Date().getFullYear()} ApporLeader. All rights reserved. &nbsp;|&nbsp; Made by{' '}
+            <a href="https://dummymarketorr.netlify.app/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Dummy Marketorr</a>
+            {' '}·{' '}
+            <a href="https://kazishakib.com/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Kazi Shakib</a>
           </p>
           <div className="flex gap-6 items-center">
             <Link to="/privacy" className="text-gray-500 hover:text-white text-sm transition-colors">Privacy Policy</Link>
