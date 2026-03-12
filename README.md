@@ -2,64 +2,60 @@
 
 **Decoding Logic. Mastering AI. Winning the Game.**
 
-A full-stack web platform for the ApoorLeader community — built for strategists, tech enthusiasts, and future leaders.
+ApoorLeader is a full-stack web platform built for strategists, tech enthusiasts, and future leaders — a community-driven space for AI learning, business case studies, competitions, and more.
 
 🌐 Live: [apporleader.netlify.app](https://apporleader.netlify.app)
 
 ---
 
-## Built With
+## Tech Stack
 
 - **React 19** + **TypeScript**
 - **Vite** — build tool
 - **Tailwind CSS** — styling
 - **Framer Motion** — animations
 - **Firebase** (Firestore + Auth) — database & authentication
-- **Web3Forms** — contact form
+- **Web3Forms** — contact form handling
 
 ---
 
 ## Features
 
-- Home, About, Members, Gallery, Workshops, Blogs, Contact pages
-- Admin panel with Google Authentication
-- Firestore real-time database sync
-- Fully responsive design
+- Multi-page layout: Home, About, Members, Gallery, Workshops, Blogs, Contact
+- Secure Admin Panel with Google Authentication
+- Real-time Firestore database sync
+- Fully responsive across all devices
 - SEO optimized with React Helmet
+- Environment-variable-based configuration
 
 ---
 
 ## Getting Started
 
-### 1. Clone the repo
-
+### 1. Clone the repository
 ```bash
 git clone https://github.com/thekazishakib/apporleader.git
 cd apporleader
 ```
 
 ### 2. Install dependencies
-
 ```bash
 npm install
 ```
 
-### 3. Set up environment variables
-
+### 3. Configure environment variables
 ```bash
 cp .env.example .env
 ```
 
-Fill in your own values in `.env` — see `.env.example` for reference.
+Fill in your values in `.env` — refer to `.env.example` for all required keys.
 
 ### 4. Run locally
-
 ```bash
 npm run dev
 ```
 
 ### 5. Build for production
-
 ```bash
 npm run build
 ```
@@ -68,25 +64,38 @@ npm run build
 
 ## Deployment
 
-Deployed on **Netlify**. Set all environment variables from `.env.example` in your Netlify dashboard under **Site Settings → Environment Variables**.
+Hosted on **Netlify**. Configure all environment variables from `.env.example` under:
+**Netlify Dashboard → Site Settings → Environment Variables**
 
 ---
 
 ## Project Structure
-
 ```
 src/
 ├── components/     # Reusable UI components
 ├── context/        # Admin context & state management
-├── data/           # Static data
-├── pages/          # All page components
-├── utils/          # Utility functions
+├── data/           # Static data files
+├── pages/          # Page-level components
+├── utils/          # Utility/helper functions
 ├── firebase.ts     # Firebase initialization
-└── App.tsx         # Main app & routing
+└── App.tsx         # Root component & routing
 ```
 
 ---
 
-## License
+## Development Notes
 
-MIT © [Kazi Shakib](https://github.com/thekazishakib)
+This project was developed with the assistance of **Google AI Studio** and **Claude (Anthropic)** — used for code generation, debugging, security hardening, and deployment guidance.
+
+All architectural decisions, content, design direction, and final implementation were led and managed by **Kazi Shakib**.
+
+---
+
+## Author
+
+**Kazi Shakib**
+[GitHub](https://github.com/thekazishakib) · [LinkedIn](https://linkedin.com/in/kazishakib) · [Instagram](https://instagram.com/thekazishakib)
+
+---
+
+© 2026 Kazi Shakib. All rights reserved.
