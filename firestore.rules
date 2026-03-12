@@ -1,0 +1,188 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: members
+    // Document ID: auto-generated or custom string
+    // Fields:
+    //   - id: string (required)
+    //   - name: string (required)
+    //   - role: string (required)
+    //   - image: string (required)
+    //   - bio: string (required)
+    //   - website: string (optional)
+    //   - github: string (optional)
+    //   - linkedin: string (optional)
+    //   - isPermanent: boolean (optional)
+    //
+    // Collection: leadership
+    // Document ID: auto-generated or custom string
+    // Fields: same as members
+    //
+    // Collection: gallery
+    // Document ID: auto-generated or custom string
+    // Fields:
+    //   - id: string (required)
+    //   - title: string (required)
+    //   - image: string (required)
+    //   - category: string (required)
+    //
+    // Collection: events
+    // Document ID: auto-generated or custom string
+    // Fields:
+    //   - id: string (required)
+    //   - title: string (required)
+    //   - date: string (required)
+    //   - time: string (required)
+    //   - location: string (required)
+    //   - category: string (required)
+    //   - spots: number (required)
+    //   - filled: number (required)
+    //   - image: string (optional)
+    //   - description: string (required)
+    //   - bg: string (required)
+    //   - text: string (required)
+    //
+    // Collection: blogs
+    // Document ID: auto-generated or custom string
+    // Fields:
+    //   - id: string (required)
+    //   - title: string (required)
+    //   - date: string (required)
+    //   - image: string (required)
+    //   - excerpt: string (required)
+    //   - content: string (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.email_verified == true;
+    }
+
+    function hasOnlyAllowedFields(allowedFields) {
+      return request.resource.data.keys().hasOnly(allowedFields);
+    }
+
+    function isValidString(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+             request.resource.data[field].size() >= minLen &&
+             request.resource.data[field].size() <= maxLen;
+    }
+
+    function isValidOptionalString(field, minLen, maxLen) {
+      return !('field' in request.resource.data) ||
+             (request.resource.data[field] is string &&
+              request.resource.data[field].size() >= minLen &&
+              request.resource.data[field].size() <= maxLen);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidMember() {
+      return hasOnlyAllowedFields(['id', 'name', 'role', 'image', 'bio', 'website', 'github', 'linkedin', 'twitter', 'facebook', 'instagram', 'gmail', 'isEx', 'isPermanent']) &&
+             isValidString('id', 1, 100) &&
+             isValidString('name', 1, 100) &&
+             isValidString('role', 1, 100) &&
+             isValidString('image', 0, 1000000) &&
+             isValidString('bio', 0, 5000) &&
+             (!('website' in request.resource.data) || isValidString('website', 0, 1000)) &&
+             (!('github' in request.resource.data) || isValidString('github', 0, 1000)) &&
+             (!('linkedin' in request.resource.data) || isValidString('linkedin', 0, 1000)) &&
+             (!('twitter' in request.resource.data) || isValidString('twitter', 0, 1000)) &&
+             (!('facebook' in request.resource.data) || isValidString('facebook', 0, 1000)) &&
+             (!('instagram' in request.resource.data) || isValidString('instagram', 0, 1000)) &&
+             (!('gmail' in request.resource.data) || isValidString('gmail', 0, 1000)) &&
+             (!('isEx' in request.resource.data) || request.resource.data.isEx is bool) &&
+             (!('isPermanent' in request.resource.data) || request.resource.data.isPermanent is bool);
+    }
+
+    function isValidGalleryItem() {
+      return hasOnlyAllowedFields(['id', 'title', 'image', 'category', 'credit']) &&
+             isValidString('id', 1, 100) &&
+             isValidString('title', 1, 200) &&
+             isValidString('image', 0, 1000000) &&
+             isValidString('category', 1, 100) &&
+             (!('credit' in request.resource.data) || isValidString('credit', 0, 200));
+    }
+
+    function isValidEventItem() {
+      return hasOnlyAllowedFields(['id', 'title', 'date', 'time', 'location', 'category', 'spots', 'filled', 'image', 'description', 'bg', 'text', 'color', 'registrationLink']) &&
+             isValidString('id', 1, 100) &&
+             isValidString('title', 1, 200) &&
+             isValidString('date', 1, 100) &&
+             isValidString('time', 1, 100) &&
+             isValidString('location', 1, 200) &&
+             isValidString('category', 1, 100) &&
+             request.resource.data.spots is number && request.resource.data.spots >= 0 &&
+             request.resource.data.filled is number && request.resource.data.filled >= 0 &&
+             (!('image' in request.resource.data) || isValidString('image', 0, 1000000)) &&
+             isValidString('description', 1, 10000) &&
+             isValidString('bg', 1, 100) &&
+             isValidString('text', 1, 100) &&
+             (!('color' in request.resource.data) || isValidString('color', 1, 100)) &&
+             (!('registrationLink' in request.resource.data) || isValidString('registrationLink', 0, 1000));
+    }
+
+    function isValidBlogItem() {
+      return hasOnlyAllowedFields(['id', 'title', 'date', 'image', 'excerpt', 'content']) &&
+             isValidString('id', 1, 100) &&
+             isValidString('title', 1, 200) &&
+             isValidString('date', 1, 100) &&
+             isValidString('image', 0, 1000000) &&
+             isValidString('excerpt', 1, 2000) &&
+             isValidString('content', 1, 100000);
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /members/{memberId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidMember();
+      allow update: if isAdmin() && isValidMember();
+      allow delete: if isAdmin();
+    }
+
+    match /leadership/{memberId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidMember();
+      allow update: if isAdmin() && isValidMember();
+      allow delete: if isAdmin();
+    }
+
+    match /gallery/{itemId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidGalleryItem();
+      allow update: if isAdmin() && isValidGalleryItem();
+      allow delete: if isAdmin();
+    }
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidEventItem();
+      allow update: if isAdmin() && isValidEventItem();
+      allow delete: if isAdmin();
+    }
+
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidBlogItem();
+      allow update: if isAdmin() && isValidBlogItem();
+      allow delete: if isAdmin();
+    }
+  }
+}
