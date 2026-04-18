@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://apporleader.vercel.app/sitemap.xml
+
+# IndexNow
+# Key file: /apporleader2026indexnow.txt
