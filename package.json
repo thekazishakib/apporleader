@@ -1,0 +1,40 @@
+{
+  "name": "apporleader",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "author": {
+    "name": "Kazi Shakib",
+    "email": "apporleader.learn@gmail.com",
+    "url": "https://github.com/thekazishakib"
+  },
+  "description": "ApporLeader - Decoding Logic. Mastering AI. Winning the Game.",
+  "scripts": {
+    "dev": "vite --port=3000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.35.2",
+    "lucide-react": "^0.546.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-helmet-async": "^3.0.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.13.1",
+    "tailwind-merge": "^3.5.0",
+    "vite": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "autoprefixer": "^10.4.21",
+    "tailwindcss": "^4.1.14",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
